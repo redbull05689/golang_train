@@ -2,25 +2,35 @@ package main
 
 import "fmt" 
 
+//определение структуры
 type Calculator struct{
-    a,b float64
+    mem float64
 }
 
-func (v Calculator) plus(a,b float64) float64{
-    return a + b
+
+func (v Calculator) plus(a float64) float64{
+     v.mem = a + v.mem
+	 return v.mem
 } 
 
-func (v Calculator) minus(a,b float64) float64{
-    return a - b
+func (v Calculator) minus(a float64) float64{
+    v.mem = v.mem - a
+	return v.mem
 } 
 
-func (v Calculator) mult(a,b float64) float64{
-    return a * b
+func (v Calculator) mult(a float64) float64{
+    v.mem = a * v.mem
+	return v.mem
 } 
 
-func (v Calculator) div(a,b float64) float64{
-    return a / b
+func (v Calculator) div(a float64) float64{
+    v.mem = v.mem / a
+	return v.mem
 }
+
+func (v Calculator) clear() {
+    v.mem = 0
+} 
 
 func main() { 
 	var a,b float64
@@ -35,20 +45,20 @@ func main() {
 	fmt.Print("Enter an operator (+, -, *, /): ")
 	fmt.Scanln(&operator)
 
-	
-
 	result := 0.0
 
+	calc := Calculator{a}
+	
 	switch operator {
 	case "+":
-		result = Calculator.plus(&a, &b)
+		result = calc.plus(b)
 	case "-":
-		result = Calculator.minus(&a, &b)
+		result = calc.minus(b)
 	case "*":
-		result = Calculator.mult(&a, &b)
+		result = calc.mult(b)
 	case "/":
 		if b != 0 {
-			result = Calculator.div(&a, &b)
+			result = calc.div(b)
 		} else {
 			fmt.Println("Error: Division by zero")
 			return
@@ -57,4 +67,6 @@ func main() {
 		fmt.Println("Invalid operator")
 		return
 	}
+
+	fmt.Println(result)
 }
